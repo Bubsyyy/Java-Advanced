@@ -1,6 +1,10 @@
 package _05_Polymorphism.word;
 
-public class Command {
+import jdk.jshell.spi.ExecutionControl;
+
+import java.lang.reflect.InvocationTargetException;
+
+public abstract class Command {
     private String text;
     private TextTransform textTransform;
 
@@ -15,5 +19,8 @@ public class Command {
     public TextTransform getTextTransform() {
         return this.textTransform;
     }
+
+    public abstract String execute() throws ExecutionControl.NotImplementedException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
+
 
 }
