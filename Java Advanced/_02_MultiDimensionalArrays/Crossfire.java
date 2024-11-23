@@ -18,20 +18,20 @@ public class Crossfire {
 
         String command = scanner.nextLine();
         while (!command.equals("Nuke it from orbit")) {
-            String[] tokens = command.split("\\s+"); // 3 4 1
+            String[] tokens = command.split("\\s+");
             int row = Integer.parseInt(tokens[0]);
             int col = Integer.parseInt(tokens[1]);
             int radius = Integer.parseInt(tokens[2]);
 
-            //destroy up, down
+            //up down
             for (int currentRow = row - radius; currentRow <= row + radius ; currentRow++) {
                 if(isInMatrix(currentRow, col, matrix)) {
                     matrix.get(currentRow).remove(col);
                 }
             }
 
-            //destroy left. right
-            for (int currentColumn = col + radius; currentColumn >-  col - radius; currentColumn--) {
+            //left right
+            for (int currentColumn = col + radius; currentColumn >=  col - radius; currentColumn--) {
                 if(isInMatrix(row, currentColumn, matrix)) {
                     matrix.get(row).remove(currentColumn);
                 }
