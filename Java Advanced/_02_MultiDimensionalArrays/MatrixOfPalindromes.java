@@ -13,7 +13,6 @@ public class MatrixOfPalindromes {
         char startLetter = 'a';
         for (int row = 0; row < rows ; row++) {
             for (int col = 0; col < cols ; col++) {
-                //(a -> b -> c)(startLetter + 1)()
                 String palindrome = "" + startLetter + (char)(startLetter + col) + startLetter;
                 matrix[row][col] = palindrome;
             }

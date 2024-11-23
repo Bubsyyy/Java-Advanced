@@ -8,7 +8,6 @@ import java.util.Scanner;
 public class Crossfire {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        //вход
         int[] dimensions = Arrays.stream(scanner.nextLine().split("\\s+")).mapToInt(Integer::parseInt).toArray();
         int rows = dimensions[0];
         int cols = dimensions[1];
@@ -21,7 +20,7 @@ public class Crossfire {
         while (!command.equals("Nuke it from orbit")) {
             String[] tokens = command.split("\\s+"); // 3 4 1
             int row = Integer.parseInt(tokens[0]);
-            int col = Integer.parseInt(tokens[1]); //индексът на елемента в листа
+            int col = Integer.parseInt(tokens[1]);
             int radius = Integer.parseInt(tokens[2]);
 
             //destroy up, down
