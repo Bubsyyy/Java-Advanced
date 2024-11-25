@@ -137,7 +137,7 @@ public class Contact {
             }
 
             if (number == null || number.trim().equals("") || number.length() < 5) {
-                errorMessages.append("The name must contain at least 5 characters!")
+                errorMessages.append("The number must contain at least 5 characters!")
                         .append(System.lineSeparator());
             }
 

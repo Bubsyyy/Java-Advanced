@@ -14,7 +14,7 @@ import java.util.Arrays;
 public class CommandInterpreterImpl implements CommandInterpreter {
 
     private static final String UNITS_PACKAGE_NAME =
-            "reflection_and_annotation.barracksWars.core.commands.";
+            "_07_Reflection_And_Annotation.barracksWars.core.commands.";
 
     private Repository repository;
     private UnitFactory unitFactory;

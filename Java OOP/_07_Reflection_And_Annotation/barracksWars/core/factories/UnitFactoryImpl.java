@@ -10,7 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 public class UnitFactoryImpl implements UnitFactory {
 
     private static final String UNITS_PACKAGE_NAME =
-            "reflection_and_annotation.barracksWars.models.units.";
+            "_07_Reflection_And_Annotation.barracksWars.models.units.";
 
     @Override
     public Unit createUnit(String unitType) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
