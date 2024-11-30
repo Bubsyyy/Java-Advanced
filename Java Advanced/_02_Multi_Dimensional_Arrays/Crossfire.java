@@ -1,4 +1,4 @@
-package _02_MultiDimensionalArrays;
+package _02_Multi_Dimensional_Arrays;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,7 +52,7 @@ public class Crossfire {
     }
 
 
-    //fill matrix
+
     private static void fillMatrix(List<List<Integer>> matrix, int rows, int cols) {
         int number = 1;
         for (int row = 0; row < rows; row++) {
@@ -63,7 +63,7 @@ public class Crossfire {
         }
     }
 
-    //print matrix
+
     public static void printMatrix(List<List<Integer>> matrix) {
         for (List<Integer> row : matrix) {
             for (int element : row ) {

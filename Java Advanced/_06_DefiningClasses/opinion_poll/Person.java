@@ -20,7 +20,7 @@ public class Person implements Comparable<Person>{
 
     @Override
     public String toString() {
-        // John - 48
+
         return String.format("%s - %d", this.name, this.age);
     }
 

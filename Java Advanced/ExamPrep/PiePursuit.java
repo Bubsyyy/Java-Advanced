@@ -13,37 +13,7 @@ public class PiePursuit {
         Arrays.stream(scanner.nextLine().split("\\s+")).mapToInt(Integer::parseInt).forEach(piePiecesStack::push);
 
 
-        while(!piePiecesStack.isEmpty() && !contestantsQueue.isEmpty()) {
-
-            Integer contestantCapacity = contestantsQueue.poll();
-            Integer piePieces = piePiecesStack.pop();
-
-            if(contestantCapacity >= piePieces) {
-
-                int contestantPiecesLeftToConsume = contestantCapacity - piePieces;
-
-                if(contestantPiecesLeftToConsume > 0) {
-                    contestantsQueue.offer(contestantPiecesLeftToConsume);
-                }
-
-
-            }else{
-
-                int piePiecesLeftToConsume = piePieces - contestantCapacity;
-
-                if(piePiecesLeftToConsume == 1) {
-                    if(piePiecesStack.size() > 1){
-                        int nextPiePieces = piePiecesStack.pop();
-                        piePiecesStack.push(nextPiePieces + 1);
-                        continue;
-                    }
-
-                }
-
-                piePiecesStack.push(piePiecesLeftToConsume);
-            }
-
-        }
+        contestantsEatPies(contestantsQueue, piePiecesStack);
 
         if(contestantsQueue.isEmpty() && piePiecesStack.isEmpty()) {
             System.out.println("We have a champion!");
@@ -84,5 +54,42 @@ public class PiePursuit {
         return deque.stream()
                 .map(String::valueOf)
                 .collect(Collectors.joining(", "));
+    }
+
+
+    private static void contestantsEatPies(Deque<Integer> contestantsQueue, Deque<Integer> piePiecesStack) {
+
+        while(!piePiecesStack.isEmpty() && !contestantsQueue.isEmpty()) {
+
+            Integer contestantCapacity = contestantsQueue.poll();
+            Integer piePieces = piePiecesStack.pop();
+
+            if(contestantCapacity >= piePieces) {
+
+                int contestantPiecesLeftToConsume = contestantCapacity - piePieces;
+
+                if(contestantPiecesLeftToConsume > 0) {
+                    contestantsQueue.offer(contestantPiecesLeftToConsume);
+                }
+
+
+            }else{
+
+                int piePiecesLeftToConsume = piePieces - contestantCapacity;
+
+                if(piePiecesLeftToConsume == 1) {
+                    if(piePiecesStack.size() > 1){
+                        int nextPiePieces = piePiecesStack.pop();
+                        piePiecesStack.push(nextPiePieces + 1);
+                        continue;
+                    }
+
+                }
+
+                piePiecesStack.push(piePiecesLeftToConsume);
+            }
+
+        }
+
     }
 }
