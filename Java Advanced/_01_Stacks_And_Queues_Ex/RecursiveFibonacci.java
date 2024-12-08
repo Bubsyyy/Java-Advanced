@@ -20,7 +20,7 @@ public class RecursiveFibonacci {
 
     private static long getFibonacci(int n) {
 
-        // Дъно
+
         if (n <= 1) {
             return 1;
         } else {

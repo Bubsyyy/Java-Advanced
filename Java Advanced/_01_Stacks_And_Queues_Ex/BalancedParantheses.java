@@ -9,33 +9,43 @@ public class BalancedParantheses {
 
         Scanner scanner = new Scanner(System.in);
 
-        ArrayDeque<Character> stack = new ArrayDeque<>();
-        String expression = scanner.nextLine();
+        String input = scanner.nextLine();
 
-        //"{[()]}"
-        for (char parenthesis : expression.toCharArray()) {
+        ArrayDeque<Character> openBrackets = new ArrayDeque<>();
 
-            if (parenthesis == '{' || parenthesis == '[' || parenthesis == '(') {
-                stack.push(parenthesis);
-            } else {
-                if (stack.isEmpty() || !areMatchingParentheses(stack.pop(), parenthesis)){
-                    System.out.println("NO");
-                    return;
+        boolean areBalanced = false;
+
+        for (int index = 0; index < input.length(); index++) {
+            char currentBracket = input.charAt(index);
+            if (currentBracket == '(' || currentBracket == '{' || currentBracket == '[') {
+                openBrackets.push(currentBracket);
+            } else if (currentBracket == ')' || currentBracket == '}' || currentBracket == ']') {
+                if (openBrackets.isEmpty()) {
+                    areBalanced = false;
+                    break;
+                }
+
+                char lastOpenBracket = openBrackets.pop();
+
+                if (lastOpenBracket == '(' && currentBracket == ')') {
+                    areBalanced = true;
+                } else if (lastOpenBracket == '{' && currentBracket == '}') {
+                    areBalanced = true;
+                } else if (lastOpenBracket == '[' && currentBracket == ']') {
+                    areBalanced = true;
+                } else {
+                    areBalanced = false;
+                    break;
                 }
             }
         }
 
-        System.out.println("YES");
-    }
-
-    private static boolean areMatchingParentheses(char openParenthesis, char closeParenthesis) {
-
-        if (openParenthesis == '{') {
-            return closeParenthesis == '}';
-        } else if (openParenthesis == '[') {
-            return closeParenthesis == ']';
+        if (areBalanced) {
+            System.out.println("YES");
         } else {
-            return closeParenthesis == ')';
+            System.out.println("NO");
         }
+
+
     }
 }

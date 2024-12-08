@@ -8,30 +8,38 @@ public class PoisonousPlants {
 
     public static void main(String[] args) {
 
-        Scanner scanner = new Scanner(System.in);
-        int n = Integer.parseInt(scanner.nextLine());
-        int[] plants = Arrays.stream(scanner.nextLine().split(" "))
-                .mapToInt(Integer::parseInt)
-                .toArray();
 
+            Scanner scanner = new Scanner(System.in);
 
-        ArrayDeque<Integer> prevPlants = new ArrayDeque<>();
-        int[] days = new int[plants.length];
-        prevPlants.push(0);
-        for (int x = 1; x < plants.length; x++) {
-            int maxDays = 0;
-            while (prevPlants.size() > 0 && plants[prevPlants.peek()] >= plants[x]) {
+            int n = Integer.parseInt(scanner.nextLine());
+            int[] plants = Arrays.stream(scanner.nextLine().split("\\s+")).mapToInt(Integer::parseInt).toArray();
 
-                maxDays = Integer.max(days[prevPlants.pop()], maxDays);
+            ArrayDeque<Integer> indexes = new ArrayDeque<>();
+            indexes.push(0);
+
+            int[] days = new int[n];
+
+            for (int i = 1; i < n; i++) {
+                int lastDay = 0;
+
+                while (!indexes.isEmpty() && plants[indexes.peek()] >= plants[i]) {
+                    lastDay = Math.max(lastDay, days[indexes.pop()]);
+                }
+                if (!indexes.isEmpty()) {
+                    days[i] = lastDay + 1;
+                }
+                indexes.push(i);
             }
 
-            if (prevPlants.size() > 0) {
-                days[x] = maxDays + 1;
-            }
-
-            prevPlants.push(x);
+            System.out.println(getLastDay(days));
         }
 
-        System.out.printf("%d", Arrays.stream(days).max().getAsInt());
+
+    private static int getLastDay( int[] days){
+        return Arrays.stream(days).filter(day -> day >= 0).max().orElse(0);
     }
-}
+
+
+    }
+
+

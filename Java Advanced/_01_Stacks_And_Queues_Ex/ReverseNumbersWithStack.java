@@ -10,7 +10,7 @@ public class ReverseNumbersWithStack {
 
         Scanner scanner = new Scanner(System.in);
 
-        //"1 2 3 4 5"
+
         int[] numbers = Arrays.stream(scanner.nextLine().split(" ")).mapToInt(Integer::parseInt).toArray();
         ArrayDeque<Integer> stack = new ArrayDeque<>();
 
