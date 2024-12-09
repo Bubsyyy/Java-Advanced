@@ -7,53 +7,51 @@ public class FillTheMatrix {
         Scanner scanner = new Scanner(System.in);
 
         String input = scanner.nextLine();
-        int n = Integer.parseInt(input.split(", ")[0]);
+
+        int size = Integer.parseInt(input.split(", ")[0]);
         String pattern = input.split(", ")[1];
 
-        int [][] matrix = new int [n][n];
+        int [][] matrix = new int[size][size];
 
         if (pattern.equals("A")) {
-            fillMatrixPatternA(matrix);
+            fillPatternA(matrix, size);
         } else if (pattern.equals("B")) {
-            fillMatrixPatternB(matrix);
+            fillPatternB(matrix, size);
         }
 
-        printMatrix(matrix);
+        printMatrix(matrix, size, size);
     }
 
-    private static void printMatrix(int[][] matrix) {
-        for (int row = 0; row < matrix.length; row++) {
-            for (int col = 0; col < matrix.length; col++) {
+    private static void fillPatternB(int[][] matrix, int size) {
+        int startNumber = 1;
+        for (int col = 0; col < size; col++) {
+            if (col % 2 == 0) {
+                for (int row = 0; row < size; row++) {
+                    matrix[row][col] = startNumber++;
+                }
+            } else {
+                for (int row = size - 1; row >= 0; row--) {
+                    matrix[row][col] = startNumber++;
+                }
+            }
+        }
+    }
+
+    private static void fillPatternA(int[][] matrix, int size) {
+        int startNumber = 1;
+        for (int col = 0; col < size; col++) {
+            for (int row = 0; row < size; row++) {
+                matrix[row][col] = startNumber++;;
+            }
+        }
+    }
+
+    public static void printMatrix(int[][] matrix, int rows, int cols) {
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
                 System.out.print(matrix[row][col] + " ");
             }
             System.out.println();
-        }
-    }
-
-    private static void fillMatrixPatternB(int[][] matrix) {
-        int startNumber = 1;
-        for (int col = 0; col < matrix.length; col++) {
-            if ((col + 1) % 2 == 0) {
-                for (int row = matrix.length - 1; row >= 0 ; row--) {
-                    matrix[row][col] = startNumber;
-                    startNumber++;
-                }
-            } else {
-                for (int row = 0; row <= matrix.length - 1; row++) {
-                    matrix[row][col] = startNumber;
-                    startNumber++;
-                }
-            }
-        }
-    }
-
-    private static void fillMatrixPatternA(int [][] matrix) {
-        int startNumber = 1;
-        for (int col = 0; col < matrix.length; col++) {
-            for (int row = 0; row < matrix.length; row++) {
-                matrix[row][col] = startNumber;
-                startNumber++;
-            }
         }
     }
 }
