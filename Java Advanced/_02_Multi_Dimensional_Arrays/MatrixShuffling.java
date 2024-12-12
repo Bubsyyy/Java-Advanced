@@ -1,80 +1,77 @@
 package _02_Multi_Dimensional_Arrays;
 
+
+import java.util.Arrays;
 import java.util.Scanner;
+
 
 public class MatrixShuffling {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        String dimensionsInput = scanner.nextLine(); //"3 4".split(" ") -> ["3", "4"]
-        int rows = Integer.parseInt(dimensionsInput.split("\\s+")[0]);
-        int cols = Integer.parseInt(dimensionsInput.split("\\s+")[1]);
+        int [] dimensions =  Arrays.stream(scanner.nextLine().split("\\s+")).mapToInt(Integer::parseInt).toArray();
+        int rows = dimensions[0];
+        int cols = dimensions[1];
 
-        String [][] matrix = new String[rows][cols];
-
-        fillMatrix(matrix, scanner);
+        String[][] matrix = new String[rows][cols];
+        fillMatrix(scanner, matrix, rows, cols);
 
         String command = scanner.nextLine();
-        while (!command.equals("END")) {
-            if (validateCommand(command, rows, cols)) {
-                String [] commandParts = command.split("\\s+");
+        while(!command.equals("END")) {
+            if(!validateCommand(command, rows, cols)) {
+                System.out.println("Invalid JavaOOP.input!");
+            } else {
+                String [] tokens = command.split(" ");
+                int rowFirst = Integer.parseInt(tokens[1]);
+                int colFirst = Integer.parseInt(tokens[2]);
+                int rowSecond = Integer.parseInt(tokens[3]);
+                int colSecond =Integer.parseInt(tokens[4]);
+                String element1 = matrix[rowFirst][colFirst];
+                String element2 = matrix[rowSecond][colSecond];
 
-                int row1 = Integer.parseInt(commandParts[1]);
-                int col1 = Integer.parseInt(commandParts[2]);
+                matrix[rowFirst][colFirst] = element2;
+                matrix[rowSecond][colSecond] = element1;
 
-                int row2 = Integer.parseInt(commandParts[3]);
-                int col2 = Integer.parseInt(commandParts[4]);
-
-                String firstElement = matrix[row1][col1];
-                String secondElement = matrix[row2][col2];
-
-                matrix[row1][col1] = secondElement;
-                matrix[row2][col2] = firstElement;
-
-                printMatrix(matrix);
-
+                printMatrix(matrix, rows, cols);
             }
 
-            else {
-                System.out.println("Invalid input!");
-            }
             command = scanner.nextLine();
         }
+
     }
 
-    private static void fillMatrix(String[][] matrix, Scanner scanner) {
-        for (int row = 0; row < matrix.length ; row++) {
+    private static boolean validateCommand(String command, int rows, int cols) {
+        String [] tokens = command.split(" ");
+        String commandName = tokens[0];
+
+        if (!commandName.equals("swap")) {
+            return false;
+        }
+        if (tokens.length != 5) {
+            return false;
+        }
+
+        int rowFirst = Integer.parseInt(tokens[1]);
+        int colFirst = Integer.parseInt(tokens[2]);
+        int rowSecond = Integer.parseInt(tokens[3]);
+        int colSecond =Integer.parseInt(tokens[4]);
+
+        if(rowFirst < 0 || rowFirst >= rows || colFirst < 0 ||
+                colFirst >= cols || rowSecond < 0 || rowSecond >= rows || colSecond < 0 || colSecond >= cols) {
+            return false;
+        }
+        return true;
+    }
+
+    private static void fillMatrix(Scanner scanner, String[][] matrix, int rows, int cols) {
+        for (int row = 0; row < rows; row++) {
             matrix[row] = scanner.nextLine().split("\\s+");
         }
     }
 
-    private static boolean validateCommand (String command, int rows, int cols) {
-
-        String [] commandParts = command.split("\\s+");
-
-        if (commandParts.length != 5) {
-            return false;
-        }
-
-        if (!commandParts[0].equals("swap")) {
-            return false;
-        }
-
-        int row1 = Integer.parseInt(commandParts[1]);
-        int col1 = Integer.parseInt(commandParts[2]);
-        int row2 = Integer.parseInt(commandParts[3]);
-        int col2 = Integer.parseInt(commandParts[4]);
-
-        if (row1 < 0 || row1 >= rows || row2 < 0 || row2 >= rows || col1 < 0 || col1 >= cols || col2 < 0 || col2 >= cols) {
-            return false;
-        }
-
-        return true;
-    }
-
-    private static void printMatrix(String[][] matrix) {
-        for (int row = 0; row < matrix.length; row++) {
-            for (int col = 0; col < matrix[0].length; col++) {
+    public static void printMatrix (String [][] matrix, int rows, int cols) {
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
                 System.out.print(matrix[row][col] + " ");
             }
             System.out.println();
