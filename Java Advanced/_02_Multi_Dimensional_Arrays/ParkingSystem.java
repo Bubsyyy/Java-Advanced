@@ -1,52 +1,82 @@
 package _02_Multi_Dimensional_Arrays;
 
-import java.util.Arrays;
+
 import java.util.Scanner;
 
 public class ParkingSystem {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        int[] arrDim = Arrays.stream(scanner.nextLine().split("\\s+")).mapToInt(Integer::parseInt).toArray();
-        boolean[][] isOccupied = new boolean[arrDim[0]][arrDim[1]];
-        for (int i = 0; i < isOccupied.length; i++) {
-            isOccupied[i][0] = true;
+
+        String[] matrixSize = scanner.nextLine().split(" ");
+        boolean[][] matrix = new boolean[Integer.parseInt(matrixSize[0])][Integer.parseInt(matrixSize[1])];
+
+        for (int i = 0; i < matrix.length; i++) {
+            matrix[i][0] = true;
         }
 
-        String input;
-        while (!"stop".equals(input = scanner.nextLine())) {
-            String[] tokens = input.split("\\s+");
-            int entryRow = Integer.parseInt(tokens[0]);
-            int desiredRow = Integer.parseInt(tokens[1]);
-            int desiredCol = Integer.parseInt(tokens[2]);
-            boolean hasFoundPlace = false;
-            int traveledDistance = 1;
-            traveledDistance += Math.abs(desiredRow - entryRow);
+        while (true) {
+            String input = scanner.nextLine();
+            if (input.equals("stop")) {
+                break;
+            }
 
-            if (!isOccupied[desiredRow][desiredCol]) {
-                traveledDistance += desiredCol;
-                isOccupied[desiredRow][desiredCol] = true;
-                hasFoundPlace = true;
+            String[] inputSplit = input.split(" ");
+            int z = Integer.parseInt(inputSplit[0]);
+            int row = Integer.parseInt(inputSplit[1]);
+            int col = Integer.parseInt(inputSplit[2]);
+
+            int distance = Math.abs(z - row) + 1;
+
+            int tempColLeft = 0 >= col - 1 ? 1 : col - 1;
+            int tempColRight = col + 1 >= matrix[0].length - 1 ? col : col + 1;
+
+            while (matrix[row][tempColLeft]) {
+                if (tempColLeft == 0) {
+                    break;
+                }
+                tempColLeft--;
+            }
+            while (matrix[row][tempColRight]) {
+                if (tempColRight == matrix[0].length - 1) {
+                    break;
+                }
+                tempColRight++;
+            }
+            if (isRowFull(row, matrix)) {
+                System.out.printf("Row %d full\n", row);
+                continue;
+            }
+            if (!matrix[row][col]) {
+                matrix[row][col] = true;
+                distance += col;
+                System.out.println(distance);
+                continue;
             } else {
-                for (int offset = 1; offset < isOccupied[desiredRow].length && !hasFoundPlace; offset++) {
-                    if (desiredCol - offset > 0 && !isOccupied[desiredRow][desiredCol - offset]){
-                        isOccupied[desiredRow][desiredCol - offset] = true;
-                        hasFoundPlace = true;
-                        traveledDistance += desiredCol - offset;
-                    }
-
-                    if (!hasFoundPlace && desiredCol + offset < isOccupied[desiredRow].length
-                            && !isOccupied[desiredRow][desiredCol + offset]){
-                        isOccupied[desiredRow][desiredCol + offset] = true;
-                        hasFoundPlace = true;
-                        traveledDistance += offset + desiredCol;
-                    }
+                if ((col - tempColLeft) > (Math.abs(tempColRight - col))) {
+                    col = tempColRight;
+                } else {
+                    col = tempColLeft;
                 }
             }
-            if (hasFoundPlace){
-                System.out.println(traveledDistance);
-            } else {
-                System.out.printf("Row %d full%n", desiredRow);
+            if (col <= 1 && matrix[row][col]) {
+                col = tempColRight;
             }
+            if (matrix[row][col] && tempColRight == matrix[0].length - 1) {
+                col = tempColLeft;
+            }
+            matrix[row][col] = true;
+            distance += col;
+            System.out.println(distance);
         }
     }
+
+    public static boolean isRowFull(int row, boolean[][] matrix) {
+        for (int i = 1; i < matrix[0].length; i++) {
+            if (!matrix[row][i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
