@@ -3,28 +3,25 @@ package _03_Sets_And_Maps_Advanced;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 public class FixEmails {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Map<String, String> emailMap = new LinkedHashMap<>();
-        Pattern emailPattern = Pattern.compile("^[A-Za-z0-9_.\\d\\w]+@[A-Za-z0-9]+.(?<domain>[A-Za-z0-9]+)$");
-        Matcher domainMatcher;
+
+        LinkedHashMap<String, String> emailsData = new LinkedHashMap<>();
+
         String name = scanner.nextLine();
-        while (!name.equals("stop")){
+        while (!name.equals("stop")) {
             String email = scanner.nextLine();
-            domainMatcher = emailPattern.matcher(email);
-            if (domainMatcher.find()){
-                String domain = domainMatcher.group("domain");
-                if (!domain.equalsIgnoreCase("us") && !domain.equalsIgnoreCase("uk") && !domain.equalsIgnoreCase("com")){
-                    emailMap.put(name, email);
-                }
+            if (!email.endsWith("us") && !email.endsWith("uk") && !email.endsWith("com")) {
+                emailsData.put(name, email);
             }
+
             name = scanner.nextLine();
         }
-        for (Map.Entry<String, String> entry : emailMap.entrySet()) {
+
+        for (Map.Entry<String, String> entry : emailsData.entrySet()) {
             System.out.println(entry.getKey() + " -> " + entry.getValue());
         }
     }

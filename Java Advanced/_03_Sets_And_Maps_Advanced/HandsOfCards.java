@@ -5,68 +5,76 @@ import java.util.*;
 public class HandsOfCards {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Map<String, Set<String>> playersMap = new LinkedHashMap<>();
-        String[] input = scanner.nextLine().split(": ");
-        while (!input[0].equals("JOKER")) {
-            if (!playersMap.containsKey(input[0])) {
-                Set<String> currentCardSet = new HashSet<>(List.of(input[1].split(", ")));
-                playersMap.put(input[0], currentCardSet);
+
+        Map<String, Set<String>> playersCards = new LinkedHashMap<>();
+
+        String input = scanner.nextLine();
+        while (!input.equals("JOKER")) {
+            String name = input.split(":\\s+")[0];
+            String[] inputCards = input.split(":\\s+")[1].split(",\\s+");
+
+            Set<String> cards = new HashSet<>(Arrays.asList(inputCards));
+
+            if (!playersCards.containsKey(name)) {
+                playersCards.put(name, cards);
             } else {
-                Set<String> newCardSet = new HashSet<>(List.of(input[1].split(", ")));
-                for (String s : newCardSet) {
-                    playersMap.get(input[0]).add(s);
-                }
+                Set<String> currentCards = playersCards.get(name);
+                currentCards.addAll(cards);
+                playersCards.put(name, currentCards);
             }
-            input = scanner.nextLine().split(": ");
-        }
-        printPersonalCardValue(playersMap);
-    }
 
-    private static void printPersonalCardValue(Map<String, Set<String>> playersMap) {
-        for (Map.Entry<String, Set<String>> player : playersMap.entrySet()) {
-            int cardsValue = 0;
-            for (String card : player.getValue()) {
-                char firstLetter = card.charAt(0);
-                char secondLetter = card.charAt(card.length() - 1);
-                int firstMultiplier = 1;
-                int secondMultiplier = 1;
-                if (Character.isDigit(firstLetter) || card.length() == 3){
-                    if (card.length() == 3){
-                        firstMultiplier = Integer.parseInt(card.substring(0, 2));
-                    }else {
-                        firstMultiplier = Integer.parseInt(String.valueOf(firstLetter));
-                    }
-                }else {
-                    switch (firstLetter){
-                        case 'J':
-                            firstMultiplier = 11;
-                            break;
-                        case 'Q':
-                            firstMultiplier = 12;
-                            break;
-                        case 'K':
-                            firstMultiplier = 13;
-                            break;
-                        case 'A':
-                            firstMultiplier = 14;
-                            break;
-                    }
-                }
-                switch (secondLetter){
-                    case 'S':
-                        secondMultiplier = 4;
-                        break;
-                    case 'H':
-                        secondMultiplier = 3;
-                        break;
-                    case 'D':
-                        secondMultiplier = 2;
-                        break;
-                }
-                cardsValue += firstMultiplier * secondMultiplier;
-            }
-            System.out.println(player.getKey() + ": " + cardsValue);
+            input = scanner.nextLine();
         }
 
+        for (Map.Entry<String, Set<String>> player : playersCards.entrySet()) {
+            int points = getCardPoints(player.getValue());
+            System.out.println(player.getKey() + ": " + points);
+        }
     }
-}
+
+    private static int getCardPoints(Set<String> cards) {
+        int sum = 0;
+        Map<Character, Integer> pointsValues = getPointsValues();
+
+        for (String card : cards) {
+            int points = 0;
+
+            if (card.contains("10")) {
+                char strength = card.charAt(2);
+                points = 10 * pointsValues.get(strength);
+                sum += points;
+                continue;
+            } else {
+                char number = card.charAt(0);
+                char strength = card.charAt(1);
+                points = pointsValues.get(strength) * pointsValues.get(number);
+            }
+            sum += points;
+        }
+        return sum;
+    }
+
+    private static Map<Character, Integer> getPointsValues() {
+        Map<Character, Integer> points = new HashMap<>();
+        points.put('1', 1);
+        points.put('2', 2);
+        points.put('3', 3);
+        points.put('4', 4);
+        points.put('5', 5);
+        points.put('6', 6);
+        points.put('7', 7);
+        points.put('8', 8);
+        points.put('9', 9);
+        points.put('J', 11);
+        points.put('Q', 12);
+        points.put('K', 13);
+        points.put('A', 14);
+        points.put('S', 4);
+        points.put('H', 3);
+        points.put('D', 2);
+        points.put('C', 1);
+
+        return points;
+    }
+
+    }
