@@ -1,69 +1,50 @@
 package _03_Inheritance.animals;
 
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Scanner;
 
 public class Main {
-    private final static List<Animal> animals = new ArrayList<>();
-    private static String[] inputFirstLine = null;
-    private static String[] inputSecondLine = null;
-    private static final Scanner scanner = new Scanner(System.in);
-
     public static void main(String[] args) {
-        executeFirstLine();
-        while (!inputFirstLine[0].equals("Beast!")) {
-            executeSecondLine();
+        Scanner scanner = new Scanner(System.in);
+
+        String line = scanner.nextLine();
+
+        while (!"Beast!".equals(line)) {
+
             try {
-                createNewAnimal();
-            } catch (Exception e) {
-                System.out.println(ExceptionMessages.INVALID_INPUT);
+                switch (line) {
+                    case "Cat":
+                        String[] tokens = scanner.nextLine().split("\\s+");
+                        Cat cat = new Cat(tokens[0], Integer.parseInt(tokens[1]), tokens[2]);
+                        System.out.println(cat);
+                        break;
+                    case "Dog":
+                        tokens = scanner.nextLine().split("\\s+");
+                        Dog dog = new Dog(tokens[0], Integer.parseInt(tokens[1]), tokens[2]);
+                        System.out.println(dog);
+                        break;
+                    case "Frog":
+                        tokens = scanner.nextLine().split("\\s+");
+                        Frog frog = new Frog(tokens[0], Integer.parseInt(tokens[1]), tokens[2]);
+                        System.out.println(frog);
+                        break;
+                    case "Kitten":
+                        tokens = scanner.nextLine().split("\\s+");
+                        Kitten kitten = new Kitten(tokens[0], Integer.parseInt(tokens[1]));
+                        System.out.println(kitten);
+                        break;
+                    case "Tomcat":
+                        tokens = scanner.nextLine().split("\\s+");
+                        Tomcat tomcat = new Tomcat(tokens[0], Integer.parseInt(tokens[1]));
+                        System.out.println(tomcat);
+                        break;
+                }
+
+            } catch (IllegalArgumentException ex) {
+                System.out.println(ex.getMessage());
             }
-            executeFirstLine();
+
+            line = scanner.nextLine();
         }
-        iterateOverAnimals();
-    }
-
-    private static void iterateOverAnimals() {
-        for (Animal animal : animals) {
-            System.out.println(animal);
-        }
-    }
-
-    private static void createNewAnimal() {
-        switch (inputFirstLine[0]) {
-            case "Dog":
-                Dog dog = new Dog(inputSecondLine[0], Integer.parseInt(inputSecondLine[1]), inputSecondLine[2]);
-                addToTheList(dog);
-                break;
-            case "Cat":
-                Cat cat = new Cat(inputSecondLine[0], Integer.parseInt(inputSecondLine[1]), inputSecondLine[2]);
-                addToTheList(cat);
-                break;
-            case "Frog":
-                Frog frog = new Frog(inputSecondLine[0], Integer.parseInt(inputSecondLine[1]), inputSecondLine[2]);
-                addToTheList(frog);
-                break;
-            case "Kitten":
-                Kitten kitten = new Kitten(inputSecondLine[0], Integer.parseInt(inputSecondLine[1]));
-                addToTheList(kitten);
-                break;
-            case "Tomcat":
-                Tomcat tomcat = new Tomcat(inputSecondLine[0], Integer.parseInt(inputSecondLine[1]));
-                addToTheList(tomcat);
-                break;
-        }
-    }
-
-    private static void addToTheList(Animal animal) {
-        animals.add(animal);
-    }
-
-    private static void executeFirstLine() {
-        inputFirstLine = scanner.nextLine().split(" ");
-    }
-
-    private static void executeSecondLine() {
-        inputSecondLine = scanner.nextLine().split(" ");
     }
 }
