@@ -13,8 +13,8 @@ public class Robotics {
 
         String inputRobots = scanner.nextLine();
         String[] robotsData = inputRobots.split(";");
-        LinkedHashMap<String, Integer> robots = getRobotsMap(robotsData);
-        LinkedHashMap<String, Integer> robotsWorkingTime = getRobotsWorkingTimeMap(robotsData);
+        Map<String, Integer> robots = getRobotsMap(robotsData);
+        Map<String, Integer> robotsWorkingTime = getRobotsWorkingTimeMap(robotsData);
 
         String startTime = scanner.nextLine();
         int startTimeInSeconds = getStartTimeInSeconds(startTime);
@@ -49,7 +49,7 @@ public class Robotics {
 
     }
 
-    private static void decreaseWorkingTime(LinkedHashMap<String, Integer> robotsWorkingTime) {
+    private static void decreaseWorkingTime(Map<String, Integer> robotsWorkingTime) {
         for (Map.Entry<String, Integer> robot : robotsWorkingTime.entrySet()) {
             if (robot.getValue() > 0) {
                 robotsWorkingTime.put(robot.getKey(), robot.getValue() - 1);
@@ -57,8 +57,8 @@ public class Robotics {
         }
     }
 
-    private static LinkedHashMap<String, Integer> getRobotsWorkingTimeMap(String[] robotsData) {
-        LinkedHashMap<String, Integer> robots = new LinkedHashMap<>();
+    private static Map<String, Integer> getRobotsWorkingTimeMap(String[] robotsData) {
+        Map<String, Integer> robots = new LinkedHashMap<>();
         for (String robotData : robotsData) {
             String robotName = robotData.split("-")[0];
             robots.put(robotName, 0);
@@ -80,8 +80,8 @@ public class Robotics {
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 
-    private static LinkedHashMap<String, Integer> getRobotsMap(String[] robotsData) {
-        LinkedHashMap<String, Integer> robots = new LinkedHashMap<>();
+    private static Map<String, Integer> getRobotsMap(String[] robotsData) {
+        Map<String, Integer> robots = new LinkedHashMap<>();
         for (String robotData : robotsData) {
             String robotName = robotData.split("-")[0];
             int processingTime = Integer.parseInt(robotData.split("-")[1]);

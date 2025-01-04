@@ -1,6 +1,7 @@
 package _01_Stacks_And_Queues_Ex;
 
 import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Scanner;
 
 public class SimpleTextEditor {
@@ -10,7 +11,7 @@ public class SimpleTextEditor {
         Scanner scanner = new Scanner(System.in);
 
         StringBuilder text = new StringBuilder();
-        ArrayDeque<String> textHistory = new ArrayDeque<>();
+        Deque<String> textHistory = new ArrayDeque<>();
 
         int n = Integer.parseInt(scanner.nextLine());
         for (int command = 1; command <= n; command++) {
