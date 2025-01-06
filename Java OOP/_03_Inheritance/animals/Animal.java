@@ -51,10 +51,13 @@ public class Animal {
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder();
-        result.append(this.getClass().getSimpleName()).append(System.lineSeparator());
-        result.append(this.name).append(" ").append(this.age).append(" ").append(this.gender).append(System.lineSeparator());
-        result.append(this.produceSound());
-        return result.toString();
+        return String.format("%s\n" +
+                        "%s %d %s\n" +
+                        "%s",
+                this.getClass().getSimpleName(),
+                this.name,
+                this.age,
+                this.gender,
+                produceSound());
     }
 }
