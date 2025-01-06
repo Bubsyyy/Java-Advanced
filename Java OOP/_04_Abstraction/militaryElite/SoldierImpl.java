@@ -1,11 +1,13 @@
 package _04_Abstraction.militaryElite;
 
-public abstract class SoldierImpl implements Soldier{
-    protected int id;
-    protected String firstName;
-    protected String lastName;
+public abstract class SoldierImpl implements Soldier {
 
-    protected SoldierImpl(int id, String firstName, String lastName) {
+    // id (int), first name, and last name
+    private int id;
+    private String firstName;
+    private String lastName;
+
+    public SoldierImpl(int id, String firstName, String lastName) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -13,16 +15,16 @@ public abstract class SoldierImpl implements Soldier{
 
     @Override
     public int getId() {
-        return this.id;
+        return id;
     }
 
     @Override
     public String getFirstName() {
-        return this.firstName;
+        return firstName;
     }
 
     @Override
     public String getLastName() {
-        return this.lastName;
+        return lastName;
     }
 }

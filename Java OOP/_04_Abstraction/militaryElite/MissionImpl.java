@@ -1,24 +1,13 @@
 package _04_Abstraction.militaryElite;
 
 public class MissionImpl implements Mission {
-    private final String codeName;
-    private States state;
 
-    public MissionImpl(String codeName, String state) throws Exception {
+    private String codeName;
+    private States states;
+
+    public MissionImpl(String codeName, String state) {
         this.codeName = codeName;
-        setState(state);
-    }
-
-    private void setState(String state) throws Exception {
-        try {
-            this.state = States.valueOf(state);
-        }catch (Exception e){
-            throw new Exception(ExceptionMessages.INVALID_MISSION_STATE);
-        }
-    }
-    @Override
-    public void completeMission() {
-        state = States.finished;
+        this.setState(state);
     }
 
     @Override
@@ -28,13 +17,15 @@ public class MissionImpl implements Mission {
 
     @Override
     public States getState() {
-        return state;
+        return states;
     }
 
     @Override
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-        result.append(String.format("Code Name: %s State: %s", codeName, state));
-        return result.toString();
+    public void completeMission() {
+        this.states = States.finished;
+    }
+
+    private void setState(String state) {
+        this.states = States.valueOf(state);
     }
 }

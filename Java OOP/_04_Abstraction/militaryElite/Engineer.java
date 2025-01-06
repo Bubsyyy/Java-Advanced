@@ -1,8 +1,12 @@
 package _04_Abstraction.militaryElite;
 
-import java.util.ArrayList;
+
+import java.util.Collection;
 
 public interface Engineer {
+
     void addRepair(Repair repair);
-    ArrayList<Repair> getRepairs();
+
+    Collection<Repair> getRepairs();
+
 }

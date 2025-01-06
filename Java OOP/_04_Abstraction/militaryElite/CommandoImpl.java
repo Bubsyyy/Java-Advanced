@@ -1,14 +1,22 @@
 package _04_Abstraction.militaryElite;
 
-import java.util.ArrayList;
+
+import java.util.Collection;
+import java.util.Collections;
 
 public class CommandoImpl extends SpecialisedSoldierImpl implements Commando {
-    private final ArrayList<Mission> missions;
 
-    public CommandoImpl(int id, String firstName, String lastName, double salary, String corps) throws Exception {
-        super(id, firstName, lastName, salary);
-        super.setCorps(corps);
-        missions = new ArrayList<>();
+    private Collection<Mission> missions;
+
+    public CommandoImpl(int id,
+                        String firstName,
+                        String lastName,
+                        double salary,
+                        String corps,
+                        Collection<Mission> missions) {
+        super(id, firstName, lastName, salary, corps);
+        // TODO check for null missions
+        this.missions = missions;
     }
 
     @Override
@@ -17,20 +25,7 @@ public class CommandoImpl extends SpecialisedSoldierImpl implements Commando {
     }
 
     @Override
-    public ArrayList<Mission> getMissions() {
-        return this.missions;
+    public Collection<Mission> getMissions() {
+        return Collections.unmodifiableCollection(this.missions);
     }
-
-    @Override
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-        result.append(String.format("Name: %s %s Id: %d Salary: %.2f", firstName, lastName, id, salary));
-        result.append(System.lineSeparator());
-        result.append(String.format("Corps: %s", corps));
-        result.append(System.lineSeparator());
-        result.append("Missions: ");
-        this.missions.forEach(mission -> result.append(System.lineSeparator()).append("  ").append(mission));
-        return result.toString();
-    }
-
 }

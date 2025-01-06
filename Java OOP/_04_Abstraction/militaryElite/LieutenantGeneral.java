@@ -1,8 +1,10 @@
 package _04_Abstraction.militaryElite;
 
-import java.util.ArrayList;
+import java.util.Collection;
 
 public interface LieutenantGeneral {
+
     void addPrivate(Private priv);
-    ArrayList<Private> getPrivates();
+
+    Collection<Private> getPrivates();
 }

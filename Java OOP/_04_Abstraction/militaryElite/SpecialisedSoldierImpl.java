@@ -1,22 +1,24 @@
 package _04_Abstraction.militaryElite;
 
 public abstract class SpecialisedSoldierImpl extends PrivateImpl implements SpecialisedSoldier {
-    protected Corps corps;
 
-    protected SpecialisedSoldierImpl(int id, String firstName, String lastName, double salary) {
+    private Corps corps;
+
+    public SpecialisedSoldierImpl(int id,
+                                  String firstName,
+                                  String lastName,
+                                  double salary,
+                                  String corps) {
         super(id, firstName, lastName, salary);
-    }
-
-    public void setCorps(String corps) throws Exception {
-        try {
-            this.corps = Corps.valueOf(corps);
-        }catch (Exception e){
-            throw new Exception(ExceptionMessages.INVALID_CORPS);
-        }
+        this.setCorps(corps);
     }
 
     @Override
     public Corps getCorps() {
-        return this.corps;
+        return corps;
+    }
+
+    public void setCorps(String corps) {
+        this.corps = Corps.valueOf(corps);
     }
 }

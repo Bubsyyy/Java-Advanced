@@ -1,9 +1,12 @@
 package _04_Abstraction.militaryElite;
 
-import java.util.ArrayList;
+
+import java.util.Collection;
 
 public interface Commando {
+
     void addMission(Mission mission);
 
-    ArrayList<Mission> getMissions();
+    Collection<Mission> getMissions();
+
 }

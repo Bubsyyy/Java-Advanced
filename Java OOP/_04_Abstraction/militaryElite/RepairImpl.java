@@ -22,8 +22,8 @@ public class RepairImpl implements Repair {
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder();
-        result.append(String.format("Part Name: %s Hours Worked: %d", partName, hoursWorked));
-        return result.toString();
+        StringBuilder output = new StringBuilder();
+        output.append(String.format("Part Name: %s Hours Worked: %d", partName, hoursWorked));
+        return output.toString();
     }
 }

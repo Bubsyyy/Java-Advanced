@@ -1,23 +1,16 @@
 package _04_Abstraction.militaryElite;
 
 public class SpyImpl extends SoldierImpl implements Spy {
-    private String codeNumber;
 
-    protected SpyImpl(int id, String firstName, String lastName, String codeNumber) {
+    private int codeNumber;
+
+    public SpyImpl(int id, String firstName, String lastName, int codeNumber) {
         super(id, firstName, lastName);
         this.codeNumber = codeNumber;
     }
 
     @Override
-    public String getCodeNumber() {
+    public int getCodeNumber() {
         return codeNumber;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-        result.append(String.format("Name: %s %s Id: %d", firstName, lastName, id));
-        result.append(System.lineSeparator()).append(String.format("Code Number: %s", codeNumber));
-        return result.toString();
     }
 }

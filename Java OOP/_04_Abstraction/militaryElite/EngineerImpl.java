@@ -1,35 +1,39 @@
 package _04_Abstraction.militaryElite;
 
+
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class EngineerImpl extends SpecialisedSoldierImpl implements Engineer {
-    private final ArrayList<Repair> repairs;
 
-    protected EngineerImpl(int id, String firstName, String lastName, double salary, String corps) throws Exception {
-        super(id, firstName, lastName, salary);
-        super.setCorps(corps);
-        repairs = new ArrayList<>();
+    private Collection<Repair> repairs;
+
+    public EngineerImpl(int id,
+                        String firstName,
+                        String lastName,
+                        double salary,
+                        String corps,
+                        Collection<Repair> repairs) {
+        super(id, firstName, lastName, salary, corps);
+        this.setRepairs(repairs);
     }
 
     @Override
     public void addRepair(Repair repair) {
-        repairs.add(repair);
+        this.repairs.add(repair);
     }
 
     @Override
-    public ArrayList<Repair> getRepairs() {
-        return repairs;
+    public Collection<Repair> getRepairs() {
+        return Collections.unmodifiableCollection(this.repairs);
     }
 
-    @Override
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-        result.append(String.format("Name: %s %s Id: %d Salary: %.2f", firstName, lastName, id, salary));
-        result.append(System.lineSeparator());
-        result.append(String.format("Corps: %s", corps));
-        result.append(System.lineSeparator());
-        result.append("Repairs: ");
-        this.repairs.forEach(repair -> result.append(System.lineSeparator()).append("  ").append(repair));
-        return result.toString();
+    private void setRepairs(Collection<Repair> repairs) {
+        if (null == repairs) {
+            this.repairs = new ArrayList<>();
+        } else {
+            this.repairs = repairs;
+        }
     }
 }
