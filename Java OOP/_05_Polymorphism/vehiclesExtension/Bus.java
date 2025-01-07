@@ -2,36 +2,27 @@ package _05_Polymorphism.vehiclesExtension;
 
 public class Bus extends Vehicle {
 
-    public Bus(Double fuelQuantity, Double fuelConsumption, Double tankCapacity) {
-        super(fuelQuantity, fuelConsumption, tankCapacity);
+    private double emptyBusFuelCostPerKm;
+    private double nonEmptyBusFuelCostPerKm;
+
+    public Bus(double fuelQuantity, double fuelCostPerKm, double tankCapacity) {
+        super(fuelQuantity, fuelCostPerKm, tankCapacity);
+        this.emptyBusFuelCostPerKm = fuelCostPerKm;
+        this.nonEmptyBusFuelCostPerKm = fuelCostPerKm + 1.4;
     }
 
-    @Override
-    public boolean driveEmpty(Double distance) {
-        if (distance * super.fuelConsumption <= super.fuelQuantity) {
-            super.fuelQuantity -= distance * super.fuelConsumption;
-            return true;
-        }
-        return false;
+    // Карам автобус с хора! НЕ Е ПРАЗЕН!
+    public String drive(double distance) {
+
+        this.setFuelCostPerKm(nonEmptyBusFuelCostPerKm);
+        // изпълни логиката/метода написан бащиният клас!
+        return super.drive(distance);
     }
 
-    @Override
-    boolean drive(Double distance) {
-        if (distance * (super.fuelConsumption + 1.4) <= super.fuelQuantity) {
-            super.fuelQuantity -= distance * (super.fuelConsumption + 1.4);
-            return true;
-        }
-        return false;
-    }
+    // Карам автобус без хора! Е ПРАЗЕН!
+    public String driveEmpty(double distance) {
 
-    @Override
-    void refuel(Double liters) throws Exception {
-        super.checkGiveLiters(liters);
-        super.fuelQuantity += liters;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("Bus: %.2f", getFuelQuantity());
+        this.setFuelCostPerKm(emptyBusFuelCostPerKm);
+        return super.drive(distance);
     }
 }

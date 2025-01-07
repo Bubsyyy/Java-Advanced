@@ -4,47 +4,74 @@ import java.text.DecimalFormat;
 
 public abstract class Vehicle {
 
-    protected Double fuelQuantity;
-    protected Double fuelConsumption;
-    protected Double tankCapacity;
+    private double fuelQuantity;
+    private double fuelCostPerKm;
+    private double tankCapacity;
 
-    public Vehicle(Double fuelQuantity, Double fuelConsumption, Double tankCapacity) {
+    public Vehicle(double fuelQuantity, double fuelCostPerKm, double tankCapacity) {
         this.fuelQuantity = fuelQuantity;
-        this.fuelConsumption = fuelConsumption;
+        this.fuelCostPerKm = fuelCostPerKm;
         this.tankCapacity = tankCapacity;
     }
 
-    public Double getFuelQuantity() {
+    public String drive(double distanceToDrive) {
+
+        String message;
+
+        double requiredFuel = distanceToDrive * this.getFuelCostPerKm();
+        if (requiredFuel <= this.getFuelQuantity()) {
+            DecimalFormat df = new DecimalFormat("#.##");
+            message = "%s travelled %s km".formatted(this.getClass().getSimpleName(), df.format(distanceToDrive));
+
+            this.setFuelQuantity(this.getFuelQuantity() - requiredFuel);
+        }
+
+        else {
+            message = "%s needs refueling".formatted(this.getClass().getSimpleName());
+        }
+        return message;
+    }
+
+    public void refuel(double fuelToRefill) {
+
+
+        if (fuelToRefill <= 0) {
+            System.out.println("Fuel must be a positive number");
+            return;
+        }
+
+        else if (this.getFuelQuantity() + fuelToRefill > this.getTankCapacity()) {
+            System.out.println("Cannot fit fuel in tank");
+            return;
+        }
+        this.setFuelQuantity(this.getFuelQuantity() + fuelToRefill);
+    }
+
+    public double getFuelQuantity() {
         return fuelQuantity;
     }
 
-    public Double getFuelConsumption() {
-        return fuelConsumption;
+    public void setFuelQuantity(double fuelQuantity) {
+        this.fuelQuantity = fuelQuantity;
     }
 
-    public Double getTankCapacity() {
+    public double getFuelCostPerKm() {
+        return fuelCostPerKm;
+    }
+
+    public void setFuelCostPerKm(double fuelCostPerKm) {
+        this.fuelCostPerKm = fuelCostPerKm;
+    }
+
+    public double getTankCapacity() {
         return tankCapacity;
     }
 
-    abstract boolean drive(Double distance);
-    abstract boolean driveEmpty(Double distance);
-
-    abstract void refuel(Double liters) throws Exception;
-
-    public void traveling(String className, Double kilometers) {
-        DecimalFormat dm = new DecimalFormat("#.##");
-        System.out.printf("%s travelled %s km%n",className, dm.format(kilometers));
+    public void setTankCapacity(double tankCapacity) {
+        this.tankCapacity = tankCapacity;
     }
 
-    public void needsRefueling() {
-        System.out.printf("%s needs refueling%n", this.getClass().getSimpleName());
-    }
-
-    protected void checkGiveLiters(Double liters) throws Exception {
-        if (liters <= 0) {
-            throw new Exception("Fuel must be a positive number");
-        } else if (liters + fuelQuantity > this.tankCapacity) {
-            throw new Exception("Cannot fit fuel in tank");
-        }
+    public String toString() {
+        return "%s: %.2f".formatted(this.getClass().getSimpleName(), this.getFuelQuantity());
     }
 }
