@@ -1,27 +1,54 @@
 package _05_Polymorphism.vehicles;
 
+import java.text.DecimalFormat;
+
 public abstract class Vehicle {
 
-    protected Double fuelQuantity;
-    protected Double fuelConsumption;
+    private double fuelQuantity;
+    private double fuelCostPerKm;
 
-    public Vehicle(Double fuelQuantity, Double fuelConsumption) {
+    public Vehicle(double fuelQuantity, double fuelCostPerKm) {
         this.fuelQuantity = fuelQuantity;
-        this.fuelConsumption = fuelConsumption;
+        this.fuelCostPerKm = fuelCostPerKm;
     }
 
-    public Double getFuelQuantity() {
+    public String drive(double distanceToDrive) {
+
+        String message;
+        // Може ли превозното средтсво да измине това разстояние
+        double requiredFuel = distanceToDrive * this.getFuelCostPerKm();
+        if (requiredFuel <= this.getFuelQuantity()) {
+            DecimalFormat df = new DecimalFormat("#.##");
+            message = "%s travelled %s km".formatted(this.getClass().getSimpleName(), df.format(distanceToDrive));
+            // Намалям кол. гориво
+            this.setFuelQuantity(this.getFuelQuantity() - requiredFuel);
+        }
+        // Ако не може:
+        else {
+            message = "%s needs refueling".formatted(this.getClass().getSimpleName());
+        }
+        return message;
+    }
+
+    public abstract void refuel(double fuelToRefill);
+
+    public double getFuelQuantity() {
         return fuelQuantity;
     }
 
-    public Double getFuelConsumption() {
-        return fuelConsumption;
+    public void setFuelQuantity(double fuelQuantity) {
+        this.fuelQuantity = fuelQuantity;
     }
 
-    abstract boolean drive(Double distance);
-    abstract void refuel(Double liters);
+    public double getFuelCostPerKm() {
+        return fuelCostPerKm;
+    }
 
-    public void needsRefueling(){
-        System.out.printf("%s needs refueling%n", this.getClass().getSimpleName());
+    public void setFuelCostPerKm(double fuelCostPerKm) {
+        this.fuelCostPerKm = fuelCostPerKm;
+    }
+
+    public String toString() {
+        return "%s: %.2f".formatted(this.getClass().getSimpleName(), this.getFuelQuantity());
     }
 }
