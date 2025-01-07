@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-        
+
         List<Citizen> citizens = new ArrayList<>();
         List<Rebel> rebels = new ArrayList<>();
 
