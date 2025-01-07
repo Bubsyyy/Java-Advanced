@@ -5,56 +5,63 @@ import java.util.*;
 public class LegendaryFarming {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        TreeMap<String, Integer> keyMaterials = new TreeMap<>();
-        keyMaterials.put("shards", 0);
-        keyMaterials.put("fragments", 0);
-        keyMaterials.put("motes", 0);
-        TreeMap<String, Integer> junkMaterials = new TreeMap<>();
-        String reward = "";
-        boolean isFound = false;
-        while (!isFound) {
-            String[] materialsInput = scanner.nextLine().split(" ");
-            for (int i = 0; i < materialsInput.length; i++) {
-                if (i % 2 == 1) {
-                    if (materialsInput[i].equalsIgnoreCase("shards")) {
-                        keyMaterials.put("shards", keyMaterials.get("shards") + Integer.parseInt(materialsInput[i - 1]));
-                    } else if (materialsInput[i].equalsIgnoreCase("fragments")) {
-                        keyMaterials.put("fragments", keyMaterials.get("fragments") + Integer.parseInt(materialsInput[i - 1]));
-                    } else if (materialsInput[i].equalsIgnoreCase("motes")) {
-                        keyMaterials.put("motes", keyMaterials.get("motes") + Integer.parseInt(materialsInput[i - 1]));
-                    } else {
-                        String material = materialsInput[i].toLowerCase();
-                        if (!junkMaterials.containsKey(material)) {
-                            junkMaterials.put(material, Integer.parseInt(materialsInput[i - 1]));
-                        } else {
-                            junkMaterials.put(material, Integer.parseInt(materialsInput[i - 1]) + junkMaterials.get(material));
-                        }
+
+        Map<String, Integer> items = new TreeMap<>();
+        Map<String, Integer> trash = new TreeMap<>();
+
+        items.put("shards", 0);
+        items.put("fragments", 0);
+        items.put("motes", 0);
+
+        String winner = " ";
+        String [] input = scanner.nextLine().toLowerCase().split(" ");
+
+        loop:
+        while (true) {
+            for (int i = 0; i < input.length; i++) {
+                int valueItem = Integer.parseInt(input[i]);
+                String item = input[i + 1];
+                i++;
+                if (item.equals("shards") || item.equals("fragments") || item.equals("motes")) {
+                    int oldValueOfItem = items.get(item);
+                    items.put(item, oldValueOfItem + valueItem);
+                    if (items.get(item) >= 250) {
+                        winner = item;
+                        int lastValue = items.get(item);
+                        items.put(item, lastValue - 250);
+                        break loop;
                     }
-                    //check if legendary item could be obtained
-                    if (keyMaterials.get("shards") >= 250) {
-                        reward = "Shadowmourne";
-                        keyMaterials.put("shards", keyMaterials.get("shards") - 250);
-                        isFound = true;
-                        break;
-                    } else if (keyMaterials.get("fragments") >= 250) {
-                        reward = "Valanyr";
-                        keyMaterials.put("fragments", keyMaterials.get("fragments") - 250);
-                        isFound = true;
-                        break;
-                    } else if (keyMaterials.get("motes") >= 250) {
-                        reward = "Dragonwrath";
-                        keyMaterials.put("motes", keyMaterials.get("motes") - 250);
-                        isFound = true;
-                        break;
+                } else {
+                    if (!trash.containsKey(item)) {
+                        trash.put(item, valueItem);
+                    } else {
+                        int oldValueOfItem = trash.get(item);
+                        trash.put(item, oldValueOfItem + valueItem);
                     }
                 }
             }
+            input = scanner.nextLine().toLowerCase().split(" ");
         }
-        System.out.printf("%s obtained!%n", reward);
-        keyMaterials.entrySet()
+
+        switch (winner) {
+            case "shards":
+                System.out.println("Shadowmourne obtained!");
+                break;
+            case "fragments":
+                System.out.println("Valanyr obtained!");
+                break;
+            case "motes":
+                System.out.println("Dragonwrath obtained!");
+                break;
+        }
+
+        items.entrySet()
                 .stream()
-                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                .forEach(entry -> System.out.printf("%s: %d%n", entry.getKey(), entry.getValue()));
-        junkMaterials.forEach((key, value) -> System.out.printf("%s: %d%n", key, value));
+                .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
+                .forEach(e -> System.out.println(e.getKey() + ": " + e.getValue()));
+
+        trash.entrySet()
+                .stream()
+                .forEach(e -> System.out.println(e.getKey() + ": " + e.getValue()));
     }
 }
