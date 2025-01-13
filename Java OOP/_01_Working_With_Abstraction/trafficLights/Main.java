@@ -1,10 +1,10 @@
-package working_with_abstraction.traffic_lights;
+package _01_Working_With_Abstraction.trafficLights;
 
 import java.util.Arrays;
 import java.util.Scanner;
 
-import static working_with_abstraction.traffic_lights.Signal.printSignals;
-import static working_with_abstraction.traffic_lights.Signal.updateSignal;
+import static _01_Working_With_Abstraction.trafficLights.Signal.printSignals;
+import static _01_Working_With_Abstraction.trafficLights.Signal.updateSignal;
 
 
 public class Main {

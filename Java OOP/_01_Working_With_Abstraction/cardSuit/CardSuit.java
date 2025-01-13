@@ -1,4 +1,4 @@
-package working_with_abstraction.card_suit;
+package _01_Working_With_Abstraction.cardSuit;
 
 public enum CardSuit {
     CLUBS,

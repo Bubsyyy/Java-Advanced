@@ -1,4 +1,4 @@
-package working_with_abstraction.traffic_lights;
+package _01_Working_With_Abstraction.trafficLights;
 
 
 public enum Signal {
